@@ -20,6 +20,7 @@ class Character(TypedDict):
 marvel_folder = os.path.join(os.getcwd(), config.CHARACTERS_DATA_PATH)
 marvel_characters = [os.path.join(marvel_folder, file_name) for file_name in os.listdir(marvel_folder)]
 links = []
+PADDING = "\n\t\t"
 
 footer = f"""
     <footer id="page-footer">
@@ -38,6 +39,7 @@ def generate_characters(marvel_characters, links, footer):
             os.mkdir(marvel_characters_path)
         
         filename = os.path.join(marvel_characters_path, filename)
+
         with open(filename, "w") as f:
             f.write(f"""<!DOCTYPE html>
     <html lang="en">
@@ -57,12 +59,12 @@ def generate_characters(marvel_characters, links, footer):
         <img id='character-picture' src='{character_data['imageURL']}' alt='{character_data['imageDescription']}' />
         <h2>Also known as:</h2>
         <ul id='aka-list'>
-            {'\n\t\t'.join(['<li class="aka-item">' + alias + '</li>' for alias in character_data['aliases']])}
+            {PADDING.join(['<li class="aka-item">' + alias + '</li>' for alias in character_data['aliases']])}
         </ul>
 
         <h3>Created By:</h3>
         <ul>
-            {'\n\t\t'.join(['<li>' + creator['name'] + ': ' + creator['title'] + '</li>' for creator in character_data['creators']])}
+            {PADDING.join(['<li>' + creator['name'] + ': ' + creator['title'] + '</li>' for creator in character_data['creators']])}
         </ul>
         <h3>Description:</h3>
         <p>{character_data['description']}</p>
@@ -75,7 +77,7 @@ def generate_characters(marvel_characters, links, footer):
         </select>
         </div>
         <ul id='appearances'>
-            {'\n\t\t'.join(['<li>' + appearance + '</li>' for appearance in character_data['appearances']])}
+            {PADDING.join(['<li>' + appearance + '</li>' for appearance in character_data['appearances']])}
         </ul>
 
         {footer}
@@ -89,6 +91,7 @@ def generate_characters(marvel_characters, links, footer):
 
 def generate_index(links, footer):
     filename = os.path.join(os.getcwd(), config.OUTPUT_PATH, "index.html")
+
     with open(filename, "w") as f:
         f.write(f"""<!DOCTYPE html>
     <html lang="en">
@@ -108,7 +111,7 @@ def generate_index(links, footer):
         
         <h3>List of characters</h3>
         <ul>
-            {'\n\t\t'.join(links)}
+            {PADDING.join(links)}
         </ul>
 
         {footer}
