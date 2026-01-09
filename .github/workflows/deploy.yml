@@ -1,5 +1,8 @@
 name: deploy
 
+permissions:
+  contents: write
+
 on:
   push:
     branches:
@@ -8,33 +11,26 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: 10
     steps:
       - name: Checkout development
         uses: actions/checkout@v4
         with:
           ref: development
-          path: development
-      - name: Checkout gh-pages
-        uses: actions/checkout@v4
-        with:
-          ref: gh-pages
-          path: gh-pages
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
       - name: Generate the website
-        run: python ./development/generate_html.py
-      - name: Move files
+        run: python ./generate_html.py
+      - name: Prepare website files
         run: |
-          mv ./development/character.js ./development/styles.css ./development/website
-          mv ./development/website/* ./gh-pages
-      - name: Deploy
-        run: |
-          cd gh-pages
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git add .
-          git commit -m "Updated the website"
-          git push
+          test -d website || (echo "website folder not found" && exit 1)
+          cp -f styles.css character.js website/ || true
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: website
+          publish_branch: gh-pages
+          keep_files: false
