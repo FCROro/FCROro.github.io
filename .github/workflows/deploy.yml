@@ -1,0 +1,40 @@
+name: deploy
+
+on:
+  push:
+    branches:
+      - development
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Checkout development
+        uses: actions/checkout@v4
+        with:
+          ref: development
+          path: development
+      - name: Checkout gh-pages
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Generate the website
+        run: python ./development/generate_html.py
+      - name: Move files
+        run: |
+          mv ./development/character.js ./development/styles.css ./development/website
+          mv ./development/website/* ./gh-pages
+      - name: Deploy
+        run: |
+          cd gh-pages
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add .
+          git commit -m "Updated the website"
+          git push

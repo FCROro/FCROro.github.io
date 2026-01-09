@@ -1,0 +1,4 @@
+DISCORD_SERVER = "https://discord.gg/"
+CHARACTERS_URL_PATH = "marvel-characters"
+CHARACTERS_DATA_PATH = "data"
+OUTPUT_PATH = "website"
