@@ -4,7 +4,7 @@ These files should be uploaded under a branch called `development`. You should a
 
 # How to change some of the text on the website
 
-Head over to the `generate_html.py` script, where you will find a function for each web page. For example, if you want to edit your information, you can head over to the `generate_about` function, and edit the text between the `<p></p>` tags.
+Head over to the `templates` folder, where you will find a template files for each web page. For example, if you want to edit your information, you can head over to the `about.jinja` file, and edit the text between the `<p></p>` tags.
 
 # How to change the graphics of the website
 
