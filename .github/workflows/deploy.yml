@@ -26,7 +26,6 @@ jobs:
       - name: Prepare website files
         run: |
           test -d website || (echo "website folder not found" && exit 1)
-          cp -f styles.css character.js website/ || true
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v3
         with:

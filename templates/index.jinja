@@ -1,0 +1,14 @@
+{% extends "base_template.jinja" %}
+
+{% block title %}FCRO{% endblock %}
+{% block content %}
+  <h1>Welcome to the FCRO website!</h1>
+  <p>Brief description of the website</p>
+
+  <h3>List of characters</h3>
+  <ul>
+  {% for character in characters %}
+    <li><a href="{{ character.endpoint }}">{{ character.name }} - ({{ character.aliases | join(", ") }})</a></li>
+  {% endfor %}
+  </ul>
+{% endblock %}

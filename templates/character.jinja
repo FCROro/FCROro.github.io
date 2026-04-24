@@ -1,0 +1,39 @@
+{% extends "base_template.jinja" %}
+
+{% block title %}{{ character.name }}{% endblock %}
+
+{% block content %}
+    <h1>{{ character.name }}</h1>
+    <h2>Earth {{ character.earth }}</h2>
+    <img id='character-picture' src='{{ character.imageURL }}' alt='{{ character.imageDescription }}' />
+    <h2>Also known as:</h2>
+    <ul id='aka-list'>
+        {% for alias in character.aliases %}
+        <li class="aka-item">{{ alias }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Created By:</h3>
+    <ul>
+        {% for creator in character.creators %}
+        <li>{{ creator.name }}: {{ creator.title }}</li>
+        {% endfor %}
+    </ul>
+    <h3>Description:</h3>
+    <p>{{ character.description }}</p>
+
+    <div class="header-container">
+    <h3>Appearances:</h3>
+    <select name="Order" id="order-changer">
+        <option value="newfirst">Newest first</option>
+        <option value="oldfirst">Oldest first</option>
+    </select>
+    </div>
+    <ul id='appearances'>
+        {% for appearance in character.appearances %}
+        <li>{{ appearance }}</li>
+        {% endfor %}
+    </ul>
+
+    <script src="/character.js"></script>
+{% endblock %}
